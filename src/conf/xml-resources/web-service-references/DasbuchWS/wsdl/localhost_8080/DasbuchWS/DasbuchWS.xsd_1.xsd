@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><xs:schema xmlns:tns="http://dasbuch.uniriotec.br/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://dasbuch.uniriotec.br/">
+
+<xs:element name="procederTransporte" type="tns:procederTransporte"/>
+
+<xs:element name="procederTransporteResponse" type="tns:procederTransporteResponse"/>
+
+<xs:complexType name="procederTransporte">
+<xs:sequence>
+<xs:element name="pedido" type="xs:string" minOccurs="0"/>
+<xs:element name="notaFiscal" type="xs:string" minOccurs="0"/>
+<xs:element name="cliente" type="tns:cliente" minOccurs="0"/>
+<xs:element name="retirada" type="tns:endereco" minOccurs="0"/>
+<xs:element name="entrega" type="tns:endereco" minOccurs="0"/>
+<xs:element name="livro" type="tns:livro" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cliente">
+<xs:sequence>
+<xs:element name="cpf" type="xs:string" minOccurs="0"/>
+<xs:element name="nome" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="endereco">
+<xs:sequence>
+<xs:element name="bairro" type="xs:string" minOccurs="0"/>
+<xs:element name="cep" type="xs:string" minOccurs="0"/>
+<xs:element name="cidade" type="xs:string" minOccurs="0"/>
+<xs:element name="complemento" type="xs:string" minOccurs="0"/>
+<xs:element name="estado" type="xs:string" minOccurs="0"/>
+<xs:element name="logradouro" type="xs:string" minOccurs="0"/>
+<xs:element name="numero" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="livro">
+<xs:sequence>
+<xs:element name="altura" type="xs:double"/>
+<xs:element name="ano" type="xs:string" minOccurs="0"/>
+<xs:element name="comprimento" type="xs:double"/>
+<xs:element name="editora" type="xs:string" minOccurs="0"/>
+<xs:element name="idioma" type="xs:string" minOccurs="0"/>
+<xs:element name="isbn" type="xs:string" minOccurs="0"/>
+<xs:element name="largura" type="xs:double"/>
+<xs:element name="peso" type="xs:double"/>
+<xs:element name="titulo" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="procederTransporteResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:reciboTransporte" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reciboTransporte">
+<xs:sequence>
+<xs:element name="custo" type="xs:double"/>
+<xs:element name="dataEntrega" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="dataRetirada" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="numeroDoPedidoCliente" type="xs:string" minOccurs="0"/>
+<xs:element name="numeroDoPedidoTransporte" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
