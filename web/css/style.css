@@ -1,0 +1,16 @@
+/* 
+    Document   : style
+    Created on : Jun 27, 2013, 11:02:27 PM
+    Author     : afonso
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body{
+    font-size:13px;
+    padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */ 
+}
+
+.row {
+    margin-bottom: 25px !important;
+}

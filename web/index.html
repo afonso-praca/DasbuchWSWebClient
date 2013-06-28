@@ -7,73 +7,115 @@ and open the template in the editor.
     <head>
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="css/bootstrap.css" type="text/css">
+        
+        <!-- STYLES -->
+        <link rel="stylesheet" href="css/bootstrap.css" />
+        <link rel="stylesheet" href="css/bootstrap-responsive.css" />
+        <link rel="stylesheet" href="css/style.css" />
     </head>
     <body>
-        <form name="procederTransporte" method="post" action="DasbuchServlet" class="form-horizontal">
-         
-         <h2>Dados do pedido</h2>
-            <p>Id da livraria:</p>
-            <p><input type="text" name="idLivraria"></p>
-            <p>Número do pedido na livraria:</p>
-            <p><input type="text" name="pedidoLivraria"></p>
-            <p>Número da nota fiscal da livraria:</p>
-            <p><input type="text" name="notaLivraria"></p>
-         
-        <h2>Dados do cliente:</h2>
-            <p>Nome Cliente:</p>
-            <p><input type="text" name="nomeCliente"></p>
-            <p>CPF Cliente:</p>
-            <p><input type="text" name="cpfCliente"></p>
-            <p>Email Cliente:</p>
-            <p><input type="text" name="emailCliente"></p>
-            <p>Telefone Cliente:</p>
-            <p><input type="text" name="telefoneCliente"></p>
+        <div id="app-container">
             
-         <h2>Dados do Livro</h2>
-            <p>Nome do Livro</p>
-            <p><input type="text" name="nomeLivro"></p>
-            <p>ISBN:</p>
-            <p><input type="text" name="isbnLivro"></p>
-            <p>Comprimento:</p>
-            <p><input type="text" name="comprimentoLivro"></p>
-            <p>Largura:</p>
-            <p><input type="text" name="larguraLivro"></p>
-            <p>Altura</p>
-            <p><input type="text" name="alturaLivro"></p>
-            <p>Peso:</p>
-            <p><input type="text" name="pesoLivro"></p>
+            <!-- HEADER -->
+            <div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="navbar-inner">
+                  <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="#">Livraria XPTO</a>
+                    <div class="nav-collapse collapse">
+                      <ul class="nav">
+                        <li class="active"><a href="#transporte/novo">Solicitação de Transporte</a></li>
+                      </ul>
+                    </div><!--/.nav-collapse -->
+                  </div>
+                </div>
+              </div>
             
-         <h2>Endereço de Entrega</h2>
-            <p>Logradouro</p>
-            <p><input type="text" name="logradouroEntrega"></p>
-            <p>Número</p>
-            <p><input type="text" name="numeroEntrega"></p>
-            <p>Complemento:</p>
-            <p><input type="text" name="complementoEntrega"></p>
-            <p>Bairro:</p>
-            <p><input type="text" name="bairroEntrega"></p>
-            <p>Cidade:</p>
-            <p><input type="text" name="cidadeEntrega"></p>
-            <p>Estado</p>
-            <p><input type="text" name="estadoEntrega"></p>
-            
-          <h2>Endereço de Retirada</h2>
-            <p>Logradouro</p>
-            <p><input type="text" name="logradouroRetirada"></p>
-            <p>Número</p>
-            <p><input type="text" name="numeroRetirada"></p>
-            <p>Complemento:</p>
-            <p><input type="text" name="complementoRetirada"></p>
-            <p>Bairro:</p>
-            <p><input type="text" name="bairroRetirada"></p>
-            <p>Cidade:</p>
-            <p><input type="text" name="cidadeRetirada"></p>
-            <p>Estado</p>
-            <p><input type="text" name="estadoRetirada"></p>
-            
-            
-            <input type="submit" value="Spell Check" name="spellcheckbutton">
-  </form>
+            <div class="container container-forms">
+                
+            <form name="procederTransporte" method="post" action="DasbuchServlet" class="form-horizontal">
+                
+            <div class="row">
+                <div class="span4">
+                    <h4>Dados do Livro</h4>
+                        <p>Nome do Livro</p>
+                        <p><input type="text" name="nomeLivro" class="input-xlarge"></p>
+                        <p>ISBN:</p>
+                        <p><input type="text" name="isbnLivro" class="input-large"></p>
+                        <p>Comprimento:</p>
+                        <p><input type="text" name="comprimentoLivro" class="input-small"></p>
+                        <p>Largura:</p>
+                        <p><input type="text" name="larguraLivro" class="input-small"></p>
+                        <p>Altura</p>
+                        <p><input type="text" name="alturaLivro" class="input-small"></p>
+                        <p>Peso:</p>
+                        <p><input type="text" name="pesoLivro" class="input-small"></p>
+                </div>
+                <div class="span4">
+                    <h4>Dados do cliente:</h4>
+                        <p>Nome Cliente:</p>
+                        <p><input type="text" name="nomeCliente" class="input-xlarge"></p>
+                        <p>Email Cliente:</p>
+                        <p><input type="text" name="emailCliente"  class="input-xlarge"></p>
+                        <p>CPF Cliente:</p>
+                        <p><input type="text" name="cpfCliente" class="input-large"></p>
+                        <p>Telefone Cliente:</p>
+                        <p><input type="text" name="telefoneCliente" class="input-large"></p>
+                </div>
+                <div class="span4">
+                    <h4>Dados do pedido</h4>
+                        <p>Id da livraria:</p>
+                        <p><input type="text" name="idLivraria" class="input-small"></p>
+                        <p>Número do pedido na livraria:</p>
+                        <p><input type="text" name="pedidoLivraria" class="input-small"></p>
+                        <p>Número da nota fiscal da livraria:</p>
+                        <p><input type="text" name="notaLivraria" class="input-small"></p>
+                </div>
+              </div>
+                
+              <div class="row">
+                <div class="span4">
+                    <h4>Endereço de Entrega</h4>
+                        <p>Logradouro</p>
+                        <p><input type="text" name="logradouroEntrega" class="input-xlarge"></p>
+                        <p>Número</p>
+                        <p><input type="text" name="numeroEntrega" class="input-small"></p>
+                        <p>Complemento:</p>
+                        <p><input type="text" name="complementoEntrega" class="input-xlarge"></p>
+                        <p>Bairro:</p>
+                        <p><input type="text" name="bairroEntrega" class="input-xlarge"></p>
+                        <p>Cidade:</p>
+                        <p><input type="text" name="cidadeEntrega" class="input-xlarge"></p>
+                        <p>Estado</p>
+                        <p><input type="text" name="estadoEntrega" class="input-small"></p>
+                </div>
+                <div class="span4">
+                  <h4>Endereço de Retirada</h4>
+                    <p>Logradouro</p>
+                    <p><input type="text" name="logradouroRetirada" class="input-xlarge"></p>
+                    <p>Número</p>
+                    <p><input type="text" name="numeroRetirada" class="input-small"></p>
+                    <p>Complemento:</p>
+                    <p><input type="text" name="complementoRetirada" class="input-xlarge"></p>
+                    <p>Bairro:</p>
+                    <p><input type="text" name="bairroRetirada" class="input-xlarge"></p>
+                    <p>Cidade:</p>
+                    <p><input type="text" name="cidadeRetirada" class="input-xlarge"></p>
+                    <p>Estado</p>
+                    <p><input type="text" name="estadoRetirada" class="input-small"></p>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="span4">
+                    <input type="submit" value="Solicitar Transporte" name="sendButton" class="btn btn-primary">
+                  </div>
+              </div>
+                </form>
+            </div>
+        </div>
     </body>
 </html>
