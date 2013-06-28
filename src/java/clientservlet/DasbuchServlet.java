@@ -39,52 +39,62 @@ public class DasbuchServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        
+            throws ServletException, IOException {        
         
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet DasbuchServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DasbuchServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DasbuchServlet - livraria Virtual at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
             
+        String pedido = request.getParameter("pedidoLivraria");
+        String notaFiscal = request.getParameter("notaLivraria");
         
-        String pedido = "20678";
-        String notaFiscal = "AFG-77898";
-        Cliente cliente = new Cliente();
         Endereco retirada = new Endereco();
+        retirada.setLogradouro(request.getParameter("logradouroRetirada"));
+        retirada.setNumero(request.getParameter("numeroRetirada"));
+        retirada.setComplemento(request.getParameter("complementoRetirada"));
+        retirada.setBairro(request.getParameter("bairroRetirada"));
+        retirada.setCidade(request.getParameter("cidadeRetirada"));
+        retirada.setEstado(request.getParameter("estadoRetirada"));
+        
         Endereco entrega = new Endereco();
+        entrega.setLogradouro(request.getParameter("logradouroEntrega"));
+        entrega.setNumero(request.getParameter("numeroEntrega"));
+        entrega.setComplemento(request.getParameter("complementoEntrega"));
+        entrega.setBairro(request.getParameter("bairroEntrega"));
+        entrega.setCidade(request.getParameter("cidadeEntrega"));
+        entrega.setEstado(request.getParameter("estadoEntrega"));
+        
+        Cliente cliente = new Cliente();
+        cliente.setCpf(request.getParameter("cpfCliente"));
+        cliente.setNome(request.getParameter("nomeCliente"));
+        cliente.setEmail(request.getParameter("emailCliente"));
+        cliente.setTelefone(request.getParameter("telefoneCliente"));
+        cliente.setEndereco(entrega);
+        
         Livro livro = new Livro();
-        
-        cliente.setNome("José Kanaam");
-        cliente.setCpf("10877788800");
-        
-        livro.setTitulo("Trem Parador");
-        livro.setAno("2012");
-        livro.setEditora("Independente");
-        livro.setIdioma("Português");
-        livro.setAltura(15.00);
-        livro.setLargura(10.00);
-        livro.setComprimento(2.00);
-        livro.setPeso(0.2);
+        livro.setIsbn(request.getParameter("isbnLivro"));
+        livro.setTitulo(request.getParameter("nomeLivro"));
+        livro.setComprimento(Double.valueOf(request.getParameter("comprimentoLivro")));
+        livro.setLargura(Double.valueOf(request.getParameter("larguraLivro")));
+        livro.setAltura(Double.valueOf(request.getParameter("alturaLivro")));
+        livro.setPeso(Double.valueOf(request.getParameter("pesoLivro")));
         
         ReciboTransporte response2 = procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro);
         
         out.println("Número do pedido de transporte: " + response2.getNumeroDoPedidoTransporte());
         out.println("Número do pedido de cliente: " + response2.getNumeroDoPedidoCliente());
-        out.println("Data de retirada: " + response2.getDataRetirada());
-        out.println("Data de entrega: " + response2.getDataEntrega());
+        out.println("Data de retirada: " + response2.getDataRetirada().toString());
+        out.println("Data de entrega: " + response2.getDataEntrega().toString());
         out.println("Custo do transporte: " + response2.getCusto());
-        
         out.println(request.getParameter("nomeCliente"));
             
         } finally {            
@@ -137,4 +147,5 @@ public class DasbuchServlet extends HttpServlet {
         br.uniriotec.dasbuch.DasbuchWS port = service.getDasbuchWSPort();
         return port.procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro);
     }
+
 }
