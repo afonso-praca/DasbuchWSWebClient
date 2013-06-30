@@ -77,7 +77,6 @@ public class DasbuchServlet extends HttpServlet {
             cliente.setNome(request.getParameter("nomeCliente"));
             cliente.setEmail(request.getParameter("emailCliente"));
             cliente.setTelefone(request.getParameter("telefoneCliente"));
-            cliente.setEndereco(entrega);
 
             Livro livro = new Livro();
             livro.setIsbn(request.getParameter("isbnLivro"));
@@ -125,8 +124,19 @@ public class DasbuchServlet extends HttpServlet {
     }
     
     private String formatarData(XMLGregorianCalendar data) {
-        String dataFormatada = data.getHour() + ":" + data.getMinute() + " " + 
-                data.getDay() + "/" + data.getMonth() + "/" + data.getYear();
+        String hora = String.valueOf(data.getHour());
+        String minuto = String.valueOf(data.getMinute());
+        
+        if(hora.length() == 1) {
+            hora = "0" + hora;
+        }
+        if(minuto.length() == 1) {
+            minuto = "0" + minuto;
+        }
+        
+        String dataFormatada = hora + ":" + minuto + " " + data.getDay() + "/" + 
+                data.getMonth() + "/" + data.getYear();
+        
         return dataFormatada;
     }
 
