@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceRef;
 
 /**
@@ -51,55 +52,82 @@ public class DasbuchServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet DasbuchServlet - livraria Virtual at " + request.getContextPath() + "</h1>");
+            
+            String pedido = request.getParameter("pedidoLivraria");
+            String notaFiscal = request.getParameter("notaLivraria");
+
+            Endereco retirada = new Endereco();
+            retirada.setLogradouro(request.getParameter("logradouroRetirada"));
+            retirada.setNumero(request.getParameter("numeroRetirada"));
+            retirada.setComplemento(request.getParameter("complementoRetirada"));
+            retirada.setBairro(request.getParameter("bairroRetirada"));
+            retirada.setCidade(request.getParameter("cidadeRetirada"));
+            retirada.setEstado(request.getParameter("estadoRetirada"));
+
+            Endereco entrega = new Endereco();
+            entrega.setLogradouro(request.getParameter("logradouroEntrega"));
+            entrega.setNumero(request.getParameter("numeroEntrega"));
+            entrega.setComplemento(request.getParameter("complementoEntrega"));
+            entrega.setBairro(request.getParameter("bairroEntrega"));
+            entrega.setCidade(request.getParameter("cidadeEntrega"));
+            entrega.setEstado(request.getParameter("estadoEntrega"));
+
+            Cliente cliente = new Cliente();
+            cliente.setCpf(request.getParameter("cpfCliente"));
+            cliente.setNome(request.getParameter("nomeCliente"));
+            cliente.setEmail(request.getParameter("emailCliente"));
+            cliente.setTelefone(request.getParameter("telefoneCliente"));
+            cliente.setEndereco(entrega);
+
+            Livro livro = new Livro();
+            livro.setIsbn(request.getParameter("isbnLivro"));
+            livro.setTitulo(request.getParameter("nomeLivro"));
+            livro.setComprimento(Double.valueOf(request.getParameter("comprimentoLivro")));
+            livro.setLargura(Double.valueOf(request.getParameter("larguraLivro")));
+            livro.setAltura(Double.valueOf(request.getParameter("alturaLivro")));
+            livro.setPeso(Double.valueOf(request.getParameter("pesoLivro")));
+
+            ReciboTransporte response2 = procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro);
+
+            out.println("<p>");
+            out.println("Número do pedido de transporte: " + response2.getNumeroDoPedidoTransporte());
+            out.println("</p>");
+            
+            out.println("<p>");
+            out.println("Número do pedido de cliente: " + response2.getNumeroDoPedidoCliente());
+            out.println("</p>");
+
+            String dataRetirada = formatarData(response2.getDataRetirada());
+            String dataEntrega = formatarData(response2.getDataEntrega());
+            
+            out.println("<p>");
+            out.println("Data de retirada: " + dataRetirada);
+            out.println("</p>");
+            
+            out.println("<p>");
+            out.println("Data de entrega: " + dataEntrega);
+            out.println("</p>");
+
+            out.println("<p>");
+            out.println("Custo do transporte: " + response2.getCusto());
+            out.println("</p>");
+            
+            out.println("<p>");
+            out.println(request.getParameter("nomeCliente"));
+            out.println("</p>");
+            
             out.println("</body>");
             out.println("</html>");
             
-        String pedido = request.getParameter("pedidoLivraria");
-        String notaFiscal = request.getParameter("notaLivraria");
-        
-        Endereco retirada = new Endereco();
-        retirada.setLogradouro(request.getParameter("logradouroRetirada"));
-        retirada.setNumero(request.getParameter("numeroRetirada"));
-        retirada.setComplemento(request.getParameter("complementoRetirada"));
-        retirada.setBairro(request.getParameter("bairroRetirada"));
-        retirada.setCidade(request.getParameter("cidadeRetirada"));
-        retirada.setEstado(request.getParameter("estadoRetirada"));
-        
-        Endereco entrega = new Endereco();
-        entrega.setLogradouro(request.getParameter("logradouroEntrega"));
-        entrega.setNumero(request.getParameter("numeroEntrega"));
-        entrega.setComplemento(request.getParameter("complementoEntrega"));
-        entrega.setBairro(request.getParameter("bairroEntrega"));
-        entrega.setCidade(request.getParameter("cidadeEntrega"));
-        entrega.setEstado(request.getParameter("estadoEntrega"));
-        
-        Cliente cliente = new Cliente();
-        cliente.setCpf(request.getParameter("cpfCliente"));
-        cliente.setNome(request.getParameter("nomeCliente"));
-        cliente.setEmail(request.getParameter("emailCliente"));
-        cliente.setTelefone(request.getParameter("telefoneCliente"));
-        cliente.setEndereco(entrega);
-        
-        Livro livro = new Livro();
-        livro.setIsbn(request.getParameter("isbnLivro"));
-        livro.setTitulo(request.getParameter("nomeLivro"));
-        livro.setComprimento(Double.valueOf(request.getParameter("comprimentoLivro")));
-        livro.setLargura(Double.valueOf(request.getParameter("larguraLivro")));
-        livro.setAltura(Double.valueOf(request.getParameter("alturaLivro")));
-        livro.setPeso(Double.valueOf(request.getParameter("pesoLivro")));
-        
-        ReciboTransporte response2 = procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro);
-        
-        out.println("Número do pedido de transporte: " + response2.getNumeroDoPedidoTransporte());
-        out.println("Número do pedido de cliente: " + response2.getNumeroDoPedidoCliente());
-        out.println("Data de retirada: " + response2.getDataRetirada().toString());
-        out.println("Data de entrega: " + response2.getDataEntrega().toString());
-        out.println("Custo do transporte: " + response2.getCusto());
-        out.println(request.getParameter("nomeCliente"));
-            
-        } finally {            
+        } finally {
             out.close();
         }
+    }
+    
+    private String formatarData(XMLGregorianCalendar data) {
+        String dataFormatada = data.getHour() + ":" + data.getMinute() + " " + 
+                data.getDay() + "/" + data.getMonth() + "/" + data.getYear();
+        return dataFormatada;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
