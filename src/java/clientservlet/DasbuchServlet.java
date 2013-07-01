@@ -43,18 +43,48 @@ public class DasbuchServlet extends HttpServlet {
             throws ServletException, IOException {        
         
         response.setContentType("text/html;charset=UTF-8");
+        response.addHeader("x-uniriotec-version", "1.0.0");
+        
         PrintWriter out = response.getWriter();
         try {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DasbuchServlet</title>");            
+            out.println("<title>Servlet DasbuchServlet</title>");
+            out.println("<link rel=\"stylesheet\" href=\"css/bootstrap.css\"/>");
+            out.println("<link rel=\"stylesheet\" href=\"css/bootstrap-responsive.css\"/>");
+            out.println("<link rel=\"stylesheet\" href=\"css/style.css\" />");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DasbuchServlet - livraria Virtual at " + request.getContextPath() + "</h1>");
+            
+            
+            out.println("<!-- HEADER -->\n" +
+"            <div class=\"navbar navbar-inverse navbar-fixed-top\">\n" +
+"                <div class=\"navbar-inner\">\n" +
+"                  <div class=\"container\">\n" +
+"                    <button type=\"button\" class=\"btn btn-navbar\" data-toggle=\"collapse\" data-target=\".nav-collapse\">\n" +
+"                      <span class=\"icon-bar\"></span>\n" +
+"                      <span class=\"icon-bar\"></span>\n" +
+"                      <span class=\"icon-bar\"></span>\n" +
+"                    </button>\n" +
+"                    <a class=\"brand\" href=\"#\">Livraria XPTO</a>\n" +
+"                    <div class=\"nav-collapse collapse\">\n" +
+"                      <ul class=\"nav\">\n" +
+"                        <li class=\"active\"><a href=\"#transporte/novo\">Solicitação de Transporte</a></li>\n" +
+"                      </ul>\n" +
+"                    </div><!--/.nav-collapse -->\n" +
+"                  </div>\n" +
+"                </div>\n" +
+"              </div>");
+            
+            
+            out.println("<div class=\"container\"/>");
+            out.println("<h5>Confirmação de solicitação de transporte</h5>");
             
             String pedido = request.getParameter("pedidoLivraria");
             String notaFiscal = request.getParameter("notaLivraria");
+            
+            
 
             Endereco retirada = new Endereco();
             retirada.setLogradouro(request.getParameter("logradouroRetirada"));
@@ -63,6 +93,8 @@ public class DasbuchServlet extends HttpServlet {
             retirada.setBairro(request.getParameter("bairroRetirada"));
             retirada.setCidade(request.getParameter("cidadeRetirada"));
             retirada.setEstado(request.getParameter("estadoRetirada"));
+            
+            
 
             Endereco entrega = new Endereco();
             entrega.setLogradouro(request.getParameter("logradouroEntrega"));
@@ -71,49 +103,57 @@ public class DasbuchServlet extends HttpServlet {
             entrega.setBairro(request.getParameter("bairroEntrega"));
             entrega.setCidade(request.getParameter("cidadeEntrega"));
             entrega.setEstado(request.getParameter("estadoEntrega"));
+            
+            
 
             Cliente cliente = new Cliente();
             cliente.setCpf(request.getParameter("cpfCliente"));
             cliente.setNome(request.getParameter("nomeCliente"));
             cliente.setEmail(request.getParameter("emailCliente"));
             cliente.setTelefone(request.getParameter("telefoneCliente"));
-
+            
             Livro livro = new Livro();
             livro.setIsbn(request.getParameter("isbnLivro"));
             livro.setTitulo(request.getParameter("nomeLivro"));
-            livro.setComprimento(Double.valueOf(request.getParameter("comprimentoLivro")));
-            livro.setLargura(Double.valueOf(request.getParameter("larguraLivro")));
-            livro.setAltura(Double.valueOf(request.getParameter("alturaLivro")));
-            livro.setPeso(Double.valueOf(request.getParameter("pesoLivro")));
+            try {
+                livro.setComprimento(Double.valueOf(request.getParameter("comprimentoLivro")));
+                livro.setLargura(Double.valueOf(request.getParameter("larguraLivro")));
+                livro.setAltura(Double.valueOf(request.getParameter("alturaLivro")));
+                livro.setPeso(Double.valueOf(request.getParameter("pesoLivro")));
+            } catch (Exception e) {
+                out.println(e);
+            }
 
             ReciboTransporte response2 = procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro);
 
-            out.println("<p>");
-            out.println("Número do pedido de transporte: " + response2.getNumeroDoPedidoTransporte());
-            out.println("</p>");
+            out.println("<div class=\"well\">");
             
-            out.println("<p>");
-            out.println("Número do pedido de cliente: " + response2.getNumeroDoPedidoCliente());
-            out.println("</p>");
+                out.println("<p>");
+                out.println("<strong>Número do pedido de transporte:</strong> " + response2.getNumeroDoPedidoTransporte());
+                out.println("</p>");
 
-            String dataRetirada = formatarData(response2.getDataRetirada());
-            String dataEntrega = formatarData(response2.getDataEntrega());
-            
-            out.println("<p>");
-            out.println("Data de retirada: " + dataRetirada);
-            out.println("</p>");
-            
-            out.println("<p>");
-            out.println("Data de entrega: " + dataEntrega);
-            out.println("</p>");
+                out.println("<p>");
+                out.println("<strong>Número do pedido de cliente:</strong> " + response2.getNumeroDoPedidoCliente());
+                out.println("</p>");
 
-            out.println("<p>");
-            out.println("Custo do transporte: " + response2.getCusto());
-            out.println("</p>");
+                String dataRetirada = formatarData(response2.getDataRetirada());
+                String dataEntrega = formatarData(response2.getDataEntrega());
+
+                out.println("<p>");
+                out.println("<strong>Data de retirada:</strong> " + dataRetirada);
+                out.println("</p>");
+
+                out.println("<p>");
+                out.println("<strong>Data de entrega:</strong> " + dataEntrega);
+                out.println("</p>");
+
+                out.println("<p>");
+                out.println("<strong>Custo do transporte:</strong> " + response2.getCusto());
+                out.println("</p>");
+
+            out.println("</div>");
             
-            out.println("<p>");
-            out.println(request.getParameter("nomeCliente"));
-            out.println("</p>");
+            out.println("</div>");
             
             out.println("</body>");
             out.println("</html>");

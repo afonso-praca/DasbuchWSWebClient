@@ -60,9 +60,9 @@
 <xs:sequence>
 <xs:element name="cliente" type="tns:cliente" minOccurs="0"/>
 <xs:element name="custo" type="xs:double"/>
-<xs:element name="dataEntrega" type="tns:date" minOccurs="0"/>
-<xs:element name="dataRegistro" type="tns:date" minOccurs="0"/>
-<xs:element name="dataRetirada" type="tns:date" minOccurs="0"/>
+<xs:element name="dataEntrega" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="dataRegistro" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="dataRetirada" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="enderecoEntrega" type="tns:endereco" minOccurs="0"/>
 <xs:element name="enderecoRetirada" type="tns:endereco" minOccurs="0"/>
 <xs:element name="livraria" type="xs:int"/>
@@ -71,9 +71,5 @@
 <xs:element name="numeroDoPedidoCliente" type="xs:string" minOccurs="0"/>
 <xs:element name="numeroDoPedidoTransporte" type="xs:int"/>
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="date">
-<xs:sequence/>
 </xs:complexType>
 </xs:schema>
