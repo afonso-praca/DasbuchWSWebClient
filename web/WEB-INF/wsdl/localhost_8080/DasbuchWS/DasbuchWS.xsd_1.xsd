@@ -12,6 +12,7 @@
 <xs:element name="retirada" type="tns:endereco" minOccurs="0"/>
 <xs:element name="entrega" type="tns:endereco" minOccurs="0"/>
 <xs:element name="livro" type="tns:livro" minOccurs="0"/>
+<xs:element name="livraria" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -65,9 +66,6 @@
 <xs:element name="dataRetirada" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="enderecoEntrega" type="tns:endereco" minOccurs="0"/>
 <xs:element name="enderecoRetirada" type="tns:endereco" minOccurs="0"/>
-<xs:element name="livraria" type="xs:int"/>
-<xs:element name="livro" type="tns:livro" minOccurs="0"/>
-<xs:element name="notaFiscal" type="xs:string" minOccurs="0"/>
 <xs:element name="numeroDoPedidoCliente" type="xs:string" minOccurs="0"/>
 <xs:element name="numeroDoPedidoTransporte" type="xs:int"/>
 </xs:sequence>
