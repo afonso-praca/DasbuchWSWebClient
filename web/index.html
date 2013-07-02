@@ -12,6 +12,8 @@ and open the template in the editor.
         <link rel="stylesheet" href="css/bootstrap.css" />
         <link rel="stylesheet" href="css/bootstrap-responsive.css" />
         <link rel="stylesheet" href="css/style.css" />
+        <script src="js/jquery-2.0.2.min.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
     </head>
     <body>
         <div id="app-container">
@@ -25,10 +27,10 @@ and open the template in the editor.
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="/">Livraria XPTO</a>
+                    <a class="brand" href="/DasbuchWSWebClient/">Livraria XPTO</a>
                     <div class="nav-collapse collapse">
                       <ul class="nav">
-                        <li class="active"><a href="/">Solicitação de Transporte</a></li>
+                        <li class="active"><a href="/DasbuchWSWebClient/">Solicitação de Transporte</a></li>
                       </ul>
                     </div><!--/.nav-collapse -->
                   </div>
@@ -37,7 +39,7 @@ and open the template in the editor.
             
             <div class="container container-forms">
                 
-            <form name="procederTransporte" method="post" action="DasbuchServlet" class="form-horizontal">
+            <form name="procederTransporte" method="post" action="DasbuchServlet" class="form-horizontal" id="formTransporte">
                 
             <div class="row">
                 <div class="span4">
@@ -117,5 +119,39 @@ and open the template in the editor.
                 </form>
             </div>
         </div>
+        
+        <script>
+            $().ready(function() {
+                // validate form on submit
+                $("#formTransporte").validate({
+                    rules: {
+                        nomeLivro: "required",
+                        isbnLivro: "required",
+                        comprimentoLivro: "required",
+                        larguraLivro: "required",
+                        alturaLivro: "required",
+                        pesoLivro: "required",
+                        nomeCliente: "required",
+                        emailCliente: "required",
+                        cpfCliente: "required",
+                        telefoneCliente: "required",
+                        idLivraria: "required",
+                        pedidoLivraria: "required",
+                        notaLivraria: "required",
+                        logradouroEntrega: "required",
+                        numeroEntrega: "required",
+                        bairroEntrega: "required",
+                        cidadeEntrega: "required",
+                        estadoEntrega: "required", 
+                        logradouroRetirada: "required",
+                        numeroRetirada: "required",
+                        bairroRetirada: "required",
+                        cidadeRetirada: "required",
+                        estadoRetirada: "required"
+                    }
+                });
+            });
+            </script>
+        
     </body>
 </html>

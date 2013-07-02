@@ -7,10 +7,15 @@
 */
 
 body{
-    font-size:13px;
+    font-size:14px;
     padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */ 
 }
 
 .row {
     margin-bottom: 25px !important;
+}
+
+.error {
+    color: red;
+    margin-top: 3px;
 }

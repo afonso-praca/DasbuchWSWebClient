@@ -67,10 +67,10 @@ public class DasbuchServlet extends HttpServlet {
 "                      <span class=\"icon-bar\"></span>\n" +
 "                      <span class=\"icon-bar\"></span>\n" +
 "                    </button>\n" +
-"                    <a class=\"brand\" href=\"#\">Livraria XPTO</a>\n" +
+"                    <a class=\"brand\" href=\"/DasbuchWSWebClient/\">Livraria XPTO</a>\n" +
 "                    <div class=\"nav-collapse collapse\">\n" +
 "                      <ul class=\"nav\">\n" +
-"                        <li class=\"active\"><a href=\"#transporte/novo\">Solicitação de Transporte</a></li>\n" +
+"                        <li class=\"active\"><a href=\"/DasbuchWSWebClient/\">Solicitação de Transporte</a></li>\n" +
 "                      </ul>\n" +
 "                    </div><!--/.nav-collapse -->\n" +
 "                  </div>\n" +
@@ -81,11 +81,12 @@ public class DasbuchServlet extends HttpServlet {
             out.println("<div class=\"container\"/>");
             out.println("<h5>Confirmação de solicitação de transporte</h5>");
             
+            
+            /* RECUPERA OS DADOS DA REQUISICAO */
+            
             String pedido = request.getParameter("pedidoLivraria");
             String notaFiscal = request.getParameter("notaLivraria");
             
-            
-
             Endereco retirada = new Endereco();
             retirada.setLogradouro(request.getParameter("logradouroRetirada"));
             retirada.setNumero(request.getParameter("numeroRetirada"));
@@ -94,8 +95,6 @@ public class DasbuchServlet extends HttpServlet {
             retirada.setCidade(request.getParameter("cidadeRetirada"));
             retirada.setEstado(request.getParameter("estadoRetirada"));
             
-            
-
             Endereco entrega = new Endereco();
             entrega.setLogradouro(request.getParameter("logradouroEntrega"));
             entrega.setNumero(request.getParameter("numeroEntrega"));
@@ -104,8 +103,6 @@ public class DasbuchServlet extends HttpServlet {
             entrega.setCidade(request.getParameter("cidadeEntrega"));
             entrega.setEstado(request.getParameter("estadoEntrega"));
             
-            
-
             Cliente cliente = new Cliente();
             cliente.setCpf(request.getParameter("cpfCliente"));
             cliente.setNome(request.getParameter("nomeCliente"));
@@ -121,40 +118,55 @@ public class DasbuchServlet extends HttpServlet {
                 livro.setAltura(Double.valueOf(request.getParameter("alturaLivro")));
                 livro.setPeso(Double.valueOf(request.getParameter("pesoLivro")));
             } catch (Exception e) {
-                out.println(e);
+                
             }
 
-            ReciboTransporte response2 = procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro);
-
-            out.println("<div class=\"well\">");
+            /* INVOCA O WEB SERVICE */
+            ReciboTransporte responseWS = procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro);
             
-                out.println("<p>");
-                out.println("<strong>Número do pedido de transporte:</strong> " + response2.getNumeroDoPedidoTransporte());
-                out.println("</p>");
+                if (responseWS != null){
+                    
+                    out.println("<div class=\"well\">");
+            
+                        out.println("<p>");
+                        out.println("<strong>Número do pedido de transporte:</strong> " + responseWS.getNumeroDoPedidoTransporte());
+                        out.println("</p>");
 
-                out.println("<p>");
-                out.println("<strong>Número do pedido de cliente:</strong> " + response2.getNumeroDoPedidoCliente());
-                out.println("</p>");
+                        out.println("<p>");
+                        out.println("<strong>Número do pedido de cliente:</strong> " + responseWS.getNumeroDoPedidoCliente());
+                        out.println("</p>");
 
-                String dataRetirada = formatarData(response2.getDataRetirada());
-                String dataEntrega = formatarData(response2.getDataEntrega());
+                        String dataRetirada = formatarData(responseWS.getDataRetirada());
+                        String dataEntrega = formatarData(responseWS.getDataEntrega());
 
-                out.println("<p>");
-                out.println("<strong>Data de retirada:</strong> " + dataRetirada);
-                out.println("</p>");
+                        out.println("<p>");
+                        out.println("<strong>Data de retirada:</strong> " + dataRetirada);
+                        out.println("</p>");
 
-                out.println("<p>");
-                out.println("<strong>Data de entrega:</strong> " + dataEntrega);
-                out.println("</p>");
+                        out.println("<p>");
+                        out.println("<strong>Data de entrega:</strong> " + dataEntrega);
+                        out.println("</p>");
 
-                out.println("<p>");
-                out.println("<strong>Custo do transporte:</strong> " + response2.getCusto());
-                out.println("</p>");
-
+                        out.println("<p>");
+                        out.println("<strong>Custo do transporte:</strong> " + responseWS.getCusto());
+                        out.println("</p>");
+                    
+                    out.println("</div>");
+                
+                } else {
+                    
+                    out.println("<div class=\"alert alert-block alert-error\">");
+                    out.println("Erro na validação dos dados, por favor verifique os dados enviados!");
+                    out.println("</div>");
+                    out.println(" <div class=\"row\">\n" +
+    "                  <div class=\"span4\">\n" +
+    "                    <a href=\"/DasbuchWSWebClient/\"><div class=\"btn\">Voltar</div></a>" +
+    "                  </div>\n" +
+    "              </div>");
+                    
+                }
+            
             out.println("</div>");
-            
-            out.println("</div>");
-            
             out.println("</body>");
             out.println("</html>");
             
@@ -225,5 +237,4 @@ public class DasbuchServlet extends HttpServlet {
         br.uniriotec.dasbuch.DasbuchWS port = service.getDasbuchWSPort();
         return port.procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro);
     }
-
 }
