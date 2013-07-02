@@ -81,9 +81,9 @@ public class DasbuchServlet extends HttpServlet {
             out.println("<div class=\"container\"/>");
             out.println("<h5>Confirmação de solicitação de transporte</h5>");
             
+            int idLivraria = Integer.valueOf(request.getParameter("idLivraria"));
             String pedido = request.getParameter("pedidoLivraria");
             String notaFiscal = request.getParameter("notaLivraria");
-            
             
 
             Endereco retirada = new Endereco();
@@ -124,7 +124,7 @@ public class DasbuchServlet extends HttpServlet {
                 out.println(e);
             }
 
-            ReciboTransporte response2 = procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro);
+            ReciboTransporte response2 = procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro, idLivraria);
 
             out.println("<div class=\"well\">");
             
@@ -221,9 +221,9 @@ public class DasbuchServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private ReciboTransporte procederTransporte(java.lang.String pedido, java.lang.String notaFiscal, br.uniriotec.dasbuch.Cliente cliente, br.uniriotec.dasbuch.Endereco retirada, br.uniriotec.dasbuch.Endereco entrega, br.uniriotec.dasbuch.Livro livro) {
+    private ReciboTransporte procederTransporte(java.lang.String pedido, java.lang.String notaFiscal, br.uniriotec.dasbuch.Cliente cliente, br.uniriotec.dasbuch.Endereco retirada, br.uniriotec.dasbuch.Endereco entrega, br.uniriotec.dasbuch.Livro livro, int livraria) {
         br.uniriotec.dasbuch.DasbuchWS port = service.getDasbuchWSPort();
-        return port.procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro);
+        return port.procederTransporte(pedido, notaFiscal, cliente, retirada, entrega, livro, livraria);
     }
 
 }
